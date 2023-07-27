@@ -1,0 +1,37 @@
+/*볼링공 고르기
+두 사람은 서로 무게가 다른 볼링공을 고르려고 한다. 볼링공은 총 N개가 있으며 각 볼링공마다 무게가 적혀 있고, 공의 번호는 1번부터 순서대로 부여된다.
+같은 무게의 공이 여러 개 있을 수 있지만, 서로 다른 공으로 간주한다. 볼링공의 무게는 1부터 M까지 장ㄴ수의 형태로 존재한다.
+두 사람이 볼링공을 고르는 경우의 수를 구하는 프로그램을 작성하시오
+첫째 줄에 볼링공의 개수 N, 공의 최대 무게 M이 공백으로 구분되어 각각 자연수의 형태로 주어진다. (1<=N<=1,000, 1<=M<=10)
+둘째 줄에 각 볼링공의 무게 K가 공백으로 구분되어 순서대로 자연수 형태로 주어진다. (1<=K<=M)
+*/
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  int n, m;
+  cin >> n >> m;
+  int arr[11] = {0};
+  for (int i = 0; i < n; i++)
+  {
+    int k;
+    cin >> k;
+    arr[k] += 1;
+  }
+
+  int cnt = 0;
+
+  for (int i = 1; i <= m; i++)
+  {
+    n -= arr[i];
+    cnt += arr[i] * n;
+  }
+  cout << cnt << endl;
+}

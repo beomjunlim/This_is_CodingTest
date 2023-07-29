@@ -1,0 +1,105 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+bool alright(string p)
+{
+  bool sw = true;
+  vector<int> a;
+  for (int i = 0; i < p.length(); i++)
+  {
+    if (p[i] == '(')
+      a.push_back(i);
+    else if (p[i] == ')')
+    {
+      if (a.empty())
+      {
+        sw = false;
+        break;
+      }
+      else
+        a.pop_back();
+    }
+  }
+  if (sw)
+    return true;
+  else
+    return false;
+}
+
+string separated(string p)
+{
+  if (p.empty())
+  {
+    return "";
+  }
+  else
+  {
+    int a = 0;
+    int b = 0;
+    int index = 0;
+    if (p[0] == '(')
+      a += 1;
+    else if (p[0] == ')')
+      b += 1;
+    for (int i = 1; i < p.length(); i++)
+    {
+      if (p[i] == '(')
+        a += 1;
+      else if (p[i] == ')')
+        b += 1;
+      if (a == b)
+      {
+        index = i;
+        break;
+      }
+    }
+
+    string u = "";
+    string v = "";
+
+    for (int i = 0; i <= index; i++)
+    {
+      u += p[i];
+    }
+    for (int i = index + 1; i < p.length(); i++)
+    {
+      v += p[i];
+    }
+
+    bool sw = alright(u);
+    if (sw)
+    {
+      string str = u;
+      str += separated(v);
+      return str;
+    }
+    else
+    {
+      string blk = "";
+      blk += '(';
+      blk += separated(v);
+      blk += ')';
+
+      if (u.length() > 2)
+      {
+        for (int i = 1; i < u.length() - 1; i++)
+        {
+          if (u[i] == '(')
+            blk += ')';
+          else if (u[i] == ')')
+            blk += '(';
+        }
+      }
+      return blk;
+    }
+  }
+}
+
+string solution(string p)
+{
+  string answer = "";
+  answer += separated(p);
+  return answer;
+}

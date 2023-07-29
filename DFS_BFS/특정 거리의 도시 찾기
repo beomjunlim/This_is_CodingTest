@@ -1,0 +1,70 @@
+/*특정 거리의 도시 찾기
+어떤 나라에는 1~N번까지의 도시아 M개의 단방향 도로가 존재한다. 모든 도로의 거리는 1이다.
+특정한 도시 X로부터 출발하여 도달할 수 있는 모든 도시 중에서, 최단 거리가 정확히 K인 모든 도시의 번호를 출력하는 프로그램을 작성하시오.
+첫째 줄에 도시의 개수 N, 도로의 개수 M, 거리 정보 K, 출발 도시의 번호 X가 주어진다.
+(2<=N<=300,000, 1<=M<=1,000,000, 1<=K<=300,000, 1<=X<=N)
+둘째 줄부터 M개의 줄에 걸쳐서 두 개의 자연수 A,B가 주어지며, 각 자연수는 공백으로 구분한다.
+이는 A번 도시에서 B번 도시로 이동하는 단방향 도로가 존재한다는 의미이다. (1<=A,B<=N)단 A,B는 다른 자연수이다.
+ */
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+#define MAX 3000000
+vector<int> graph[MAX];
+vector<int> v;
+int len[MAX] = {0};
+bool visited[MAX];
+
+void bfs(int x, int k)
+{
+  queue<int> q;
+  q.push(x);
+  visited[x] = true;
+  while (!q.empty())
+  {
+    int node = q.front();
+    q.pop();
+    for (int i = 0; i < graph[node].size(); i++)
+    {
+      int next = graph[node][i];
+      if (!visited[next])
+      {
+        visited[next] = true;
+        q.push(next);
+        len[next] = len[node] + 1;
+        if (len[next] == k)
+          v.push_back(next);
+      }
+    }
+  }
+}
+
+int main()
+{
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  int n, m, k, x;
+  cin >> n >> m >> k >> x;
+
+  for (int i = 0; i < m; i++)
+  {
+    int a, b;
+    cin >> a >> b;
+    graph[a].push_back(b);
+    graph[b].push_back(a);
+  }
+
+  bfs(x, k);
+  sort(v.begin(), v.end());
+
+  if (v.empty())
+    cout << "-1" << endl;
+  else
+    for (int i = 0; i < v.size(); i++)
+      cout << v[i] << endl;
+}

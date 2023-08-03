@@ -22,11 +22,11 @@ int main()
     {
       a = dp[i / 5] + 1;
     }
-    else if (i % 3 == 0)
+    if (i % 3 == 0)
     {
       b = dp[i / 3] + 1;
     }
-    else if (i % 2 == 0)
+    if (i % 2 == 0)
     {
       c = dp[i / 2] + 1;
     }

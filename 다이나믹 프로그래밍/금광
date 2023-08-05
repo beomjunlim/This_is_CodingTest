@@ -1,0 +1,50 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int dp[21][21] = {0};
+int arr[21][21] = {0};
+
+int main()
+{
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  int t;
+  int n, m;
+  cin >> t;
+
+  while (t > 0)
+  {
+    int i, j;
+    cin >> n >> m;
+    for (i = 1; i <= n; i++)
+    {
+      for (j = 1; j <= m; j++)
+      {
+        cin >> arr[i][j];
+        dp[i][j] = arr[i][j];
+      }
+    }
+
+    int max_num = 0;
+    for (j = 2; j <= m; j++)
+    {
+      for (i = 1; i <= n; i++)
+      {
+        if (i == 1)
+          dp[i][j] = max(dp[i][j - 1], dp[i + 1][j - 1]) + arr[i][j];
+        else if (i == n)
+          dp[i][j] = max(dp[i][j - 1], dp[i - 1][j - 1]) + arr[i][j];
+        else
+          dp[i][j] = max(dp[i][j - 1], max(dp[i - 1][j - 1], dp[i + 1][j - 1])) + arr[i][j];
+        if (j == m)
+          max_num = max(dp[i][m], max_num);
+      }
+    }
+    cout << max_num << '\n';
+    t--;
+  }
+}

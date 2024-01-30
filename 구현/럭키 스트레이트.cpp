@@ -20,6 +20,7 @@ int main()
   string n;
   cin >> n;
   int len = n.length() / 2;
+  
   int sum_f = 0;
   int sum_b = 0;
   for (int i = 0; i < len; i++)
